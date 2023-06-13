@@ -1,9 +1,11 @@
-var sectionEl = document.getElementById('shop');
 var magicItems = {
 
 };
 
-
+// ISSUE: combine similar sourced arrays into an array of two arrays
+// ISSUE: gold range slider functionality
+// ISSUE: allow for requiring X amount of consumables to be populated to the list
+// ISSUE: come up with other tag ideas for each item to be able to filter shop results with
 var magicItemsPHB = `Absorbing Tattoo
 Adamantine Armor
 Alchemical Compendium
@@ -863,6 +865,11 @@ console.log(magicItems);
 var magicItemsProperties = magicItemsPHBData.split('\n');
 console.log(magicItemsProperties)
 
+var itemLimit = 10;
+
+var shopEl = $('#shop');
+// console.log(shopEl.text().trim());
+
 function consolidateData(property, index){
     var temp = property.split('\t');
     for(var i = 0; i < temp.length; i++){
@@ -870,6 +877,7 @@ function consolidateData(property, index){
     }
 }
 
+// generates properties for each item
 function itemProperties(name, index){
     var tempArr = magicItemsProperties[index].split('\t');
     name = {name};
@@ -883,12 +891,24 @@ function randNum(num){
     return Math.floor(Math.random() * num);
 }
 
-function init(){
+// displays random items to the UI
+function displayItems(){
     var randomNumber = randNum(magicItems.length);
+    for(var i = 0; i < itemLimit; i++){
+        randomNumber = randNum(magicItems.length);
+        var item = $('<li>');
+        item.attr('id', `item-${i}`);
+        shopEl.append(item);
+        item.text(magicItems[randomNumber].name);
+        console.log(`Test ${i} | ${item.text()}`);
+    }
+}
+
+function init(){
 
     magicItems.forEach(itemProperties);
     console.log(magicItems);
-    console.log(magicItems[randomNumber]);
+    displayItems();
 }
 
 init();
